@@ -1,50 +1,81 @@
-﻿namespace Connect_Four_Final_Project_OOP_2025
+﻿using System;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using System.Security.Cryptography.X509Certificates;
+using System.Threading;
+
+namespace Connect_Four_Final_Project_OOP_2025
+
 {
-    class ConnectFour()
+
+    abstract class Player
     {
-        //board is 7x6
-        private bool gameStart = false;
-        bool turn;
+        public char Disc { get; set; }
+        public string Name { get; set; }
         static List<ConnectFour> pieceLocations;
-        int myPlayThisTurn;
 
-
-        public Player()
+        public Player(char disc, string name)
         {
-
-        }
-        public PlayATurn(int myPlayMyTurn)
-        {
-            
+            Disc = disc;
+            Name = name;
         }
 
-        public DrawBoard()
-        {
-
-        }
-
-        public ShowThePieces() : DrawBoard()
-        {
-
-        }
+        public abstract int GetMove();
 
 
     }
 
-    class PlayerFunctions
+    class HumanPlayer : Player
     {
-        ConnectFour Player1;
+        public override int GetMove()
+        {
 
+            int column;
+        }
     }
 
+    class ComputerPlayer : Player
+    {
+        private Random random;//How the computer will place pieces by random
+
+        public override int GetMove()
+        {
+            int column;
+        }
+    }
+
+
+    class ConnectFour
+    {
+        public bool gameOver = true;
+
+        public ConnectFour()
+        {
+
+
+        }
+
+        public IsItConnectFour()
+        {
+
+        }
+
+        public PlayATurn()
+        {
+
+            while (!gameOver)
+            {
+                .GetMove
+            }
+        }
+
+
+    }
 
     internal class Program
     {
         static void Main(string[] args)
         {
-            ConnectFour game = new ConnectFour();
 
-            game
         }
     }
-}
