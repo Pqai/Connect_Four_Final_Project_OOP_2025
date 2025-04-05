@@ -12,7 +12,6 @@ namespace Connect_Four_Final_Project_OOP_2025
     {
         public char Disc { get; set; }
         public string Name { get; set; }
-        static List<ConnectFour> pieceLocations;
 
         public Player(char disc, string name)
         {
@@ -123,8 +122,11 @@ namespace Connect_Four_Final_Project_OOP_2025
             currentPlayer = player1;
         }
 
-        public void BeginGame(bool gameOver)
+        public void BeginGame()
         {
+
+            gameOver = false;
+            InitBoard();
 
             while (!gameOver)
             {
@@ -133,16 +135,19 @@ namespace Connect_Four_Final_Project_OOP_2025
                 if (IsItConnectFour())
                 {
                     gameOver = true;
-                    Console.WriteLine($"{currentPlayer.Name} wins!");
                     DrawBoard();
-                    break;
+                    Console.WriteLine($"{currentPlayer.Name} wins!");
                 }
                 else if (IsBoardFull())
                 {
                     gameOver = true;
-                    Console.WriteLine("The game is a draw");
                     DrawBoard();
-                    break;
+                    Console.WriteLine("The game is a draw");
+                }
+                else
+                {
+                    //the code to switch players
+                    currentPlayer = (currentPlayer == player1) ? player2 : player1;
                 }
             }
         }
@@ -163,17 +168,71 @@ namespace Connect_Four_Final_Project_OOP_2025
 
         private bool CheckHorizontalWin()
         {
-
+            for (int row = 0; row < Rows; row++)
+            {
+                for(int col = 0; col < Columns; col++)
+                {
+                    if (board[row, col] != ' ' &&
+                        board[row, col] == board[row, col + 1] &&
+                        board[row, col] == board[row, col + 2] &&
+                        board[row, col] == board[row, col + 3])
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
 
         private bool CheckVerticalWin()
         {
-
+            for (int row = 0; row < Rows; row++)
+            {
+                for (int col = 0; col < Columns; col++)
+                {
+                    if (board[row, col] != ' ' &&
+                        board[row, col] == board[row + 1, col] &&
+                        board[row, col] == board[row + 2, col] &&
+                        board[row, col] == board[row + 3, col])
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
 
         private bool CheckDiagonalWin()
         {
-
+            //diagonal to the right
+            for (int row = 0; row < Rows - 3; row++)
+            {
+                for (int col = 0; col < Columns; col++)
+                {
+                    if (board[row, col] != ' ' &&
+                        board[row, col] == board[row + 1, col + 1] &&
+                        board[row, col] == board[row + 2, col + 2] &&
+                        board[row, col] == board[row + 3, col + 3])
+                    {
+                        return true;
+                    }
+                }
+            }
+            //diagonal left checking
+            for (int row = 0; row < Rows - 3; row++)
+            {
+                for (int col = 0; col < Columns; col++)
+                {
+                    if (board[row, col] != ' ' &&
+                        board[row, col] == board[row + 1, col -1] &&
+                        board[row, col] == board[row + 2, col - 2] &&
+                        board[row, col] == board[row + 3, col - 3])
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
 
         public void PlayATurn()
@@ -218,8 +277,30 @@ namespace Connect_Four_Final_Project_OOP_2025
 
             while (playAgain)
             {
+                Console.Clear();
                 ConnectFour game = new ConnectFour();
                 game.BeginGame();
+                //after game ends
+                playAgain = AskToPlayAgain();
+
+            }
+            Console.WriteLine("Thank you for playing You many now press any key to exit");
+            Console.ReadKey();
+        }
+
+        private static bool AskToPlayAgain()
+        {
+            Console.WriteLine("\nWould you like to play again (Y/N)");
+            while (true)
+            {
+                string input = Console.ReadLine()?.Trim().ToUpper();
+
+                if (input == "Y" || input == "YES")
+                    return true;
+                else
+                {
+                    return false;
+                }
             }
         }
     }
