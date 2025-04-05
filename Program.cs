@@ -35,7 +35,7 @@ namespace Connect_Four_Final_Project_OOP_2025
         {
             Console.WriteLine($"{Name}, enter a column number (1 - 7): ");
             int column;
-            while (!int.TryParse(Console.ReadLine(), out column) || column < 1 || column > 7))
+            while (!int.TryParse(Console.ReadLine(), out column) || column < 1 || column > 7)
             {
                 Console.Write("Invalid Input. Please enter a number between 1 and 7: ");
             }
@@ -49,12 +49,12 @@ namespace Connect_Four_Final_Project_OOP_2025
 
         public ComputerPlayer(char disc, string name) : base(disc, name)
         {
-
+            random = new Random();
         }
 
         public override int GetMove()
         {
-            int column = random.Next(1, 8);
+            int column = random.Next(1, 7);//look into this
             Console.WriteLine($"{Name} chooses column {column}");
             return column;
         }
@@ -67,7 +67,7 @@ namespace Connect_Four_Final_Project_OOP_2025
         private Player player2;
         private Player currentPlayer;
         public bool gameOver = false;
-        private char[,] board;
+        private static char[,] board;
         private const int Rows = 6;
         private const int Columns = 7;
 
@@ -170,7 +170,7 @@ namespace Connect_Four_Final_Project_OOP_2025
         {
             for (int row = 0; row < Rows; row++)
             {
-                for(int col = 0; col < Columns; col++)
+                for(int col = 0; col < Columns - 3; col++)
                 {
                     if (board[row, col] != ' ' &&
                         board[row, col] == board[row, col + 1] &&
@@ -186,10 +186,11 @@ namespace Connect_Four_Final_Project_OOP_2025
 
         private bool CheckVerticalWin()
         {
-            for (int row = 0; row < Rows; row++)
+            for (int col = 0; col < Columns; col++)
             {
-                for (int col = 0; col < Columns; col++)
+                for (int row = 0; row < Rows - 3; row++)
                 {
+                    char disc = board[row, col];
                     if (board[row, col] != ' ' &&
                         board[row, col] == board[row + 1, col] &&
                         board[row, col] == board[row + 2, col] &&
@@ -207,7 +208,7 @@ namespace Connect_Four_Final_Project_OOP_2025
             //diagonal to the right
             for (int row = 0; row < Rows - 3; row++)
             {
-                for (int col = 0; col < Columns; col++)
+                for (int col = 0; col < Columns - 3; col++)
                 {
                     if (board[row, col] != ' ' &&
                         board[row, col] == board[row + 1, col + 1] &&
@@ -221,7 +222,7 @@ namespace Connect_Four_Final_Project_OOP_2025
             //diagonal left checking
             for (int row = 0; row < Rows - 3; row++)
             {
-                for (int col = 0; col < Columns; col++)
+                for (int col = 3; col < Columns; col++)
                 {
                     if (board[row, col] != ' ' &&
                         board[row, col] == board[row + 1, col -1] &&
@@ -240,6 +241,14 @@ namespace Connect_Four_Final_Project_OOP_2025
             DrawBoard();
             int column = currentPlayer.GetMove() - 1;
 
+            //checking if a column is full
+            if (board[0, column] != ' ')
+            {
+                Console.WriteLine("Column is full! Please choose a different column.");
+                PlayATurn();
+                return;
+            }
+
             for (int row = Rows - 1; row >= 0; row--)
             {
                 if (board[row, column] == ' ')
@@ -255,9 +264,9 @@ namespace Connect_Four_Final_Project_OOP_2025
             Console.Clear();
             Console.WriteLine(" 1 2 3 4 5 6 7");
 
-            for(int row = 0; row< Rows; row++)
+            for(int row = 0; row< Rows ; row++)
             {
-                Console.WriteLine("|");
+                Console.Write("|");
                 for(int col = 0; col < Columns; col++)
                 {
                     Console.Write(board[row, col]);
