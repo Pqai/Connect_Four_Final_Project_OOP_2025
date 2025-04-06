@@ -54,7 +54,7 @@ namespace Connect_Four_Final_Project_OOP_2025
 
         public override int GetMove()
         {
-            int column = random.Next(1, 7);//look into this
+            int column = random.Next(1, 8);
             Console.WriteLine($"{Name} chooses column {column}");
             return column;
         }
@@ -238,23 +238,35 @@ namespace Connect_Four_Final_Project_OOP_2025
 
         public void PlayATurn()
         {
-            DrawBoard();
-            int column = currentPlayer.GetMove() - 1;
 
-            //checking if a column is full
-            if (board[0, column] != ' ')
-            {
-                Console.WriteLine("Column is full! Please choose a different column.");
-                PlayATurn();
-                return;
-            }
+            bool validMove = false;
 
-            for (int row = Rows - 1; row >= 0; row--)
+            while (!validMove)
             {
-                if (board[row, column] == ' ')
+                DrawBoard();
+                int column = currentPlayer.GetMove() - 1;
+
+                //checking if the column typed is not in the valid range
+                if(column < 0 || column >= Columns)
                 {
-                    board[row, column] = currentPlayer.Disc;
-                    return;
+                    continue;
+
+                }
+
+                //checking if a column is full
+                if (board[0, column] != ' ')
+                {
+                    continue;
+                }
+
+                for (int row = Rows - 1; row >= 0; row--)
+                {
+                    if (board[row, column] == ' ')
+                    {
+                        board[row, column] = currentPlayer.Disc;
+                        validMove = true;
+                        return;
+                    }
                 }
             }
         }
