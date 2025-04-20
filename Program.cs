@@ -256,6 +256,8 @@ namespace Connect_Four_Final_Project_OOP_2025
                 //checking if a column is full
                 if (board[0, column] != ' ')
                 {
+                    Console.WriteLine("That column is full! Try another one.");
+                    Thread.Sleep(1000);
                     continue;
                 }
 
@@ -264,6 +266,12 @@ namespace Connect_Four_Final_Project_OOP_2025
                     if (board[row, column] == ' ')
                     {
                         board[row, column] = currentPlayer.Disc;
+                         if (currentPlayer is ComputerPlayer)
+                        {
+                            Console.WriteLine($"{currentPlayer.Name} placed a disc in column {column + 1}");
+                            Thread.Sleep(1000); // Give the player time to see the move
+                        }
+
                         validMove = true;
                         return;
                     }
