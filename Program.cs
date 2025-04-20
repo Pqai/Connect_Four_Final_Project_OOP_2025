@@ -55,7 +55,7 @@ namespace Connect_Four_Final_Project_OOP_2025
         public override int GetMove()
         {
             int column = random.Next(1, 8);
-            Console.WriteLine($"{Name} chooses column {column}");
+            Console.WriteLine($"{Name} placed a disc in column {column}");
             return column;
         }
     }
